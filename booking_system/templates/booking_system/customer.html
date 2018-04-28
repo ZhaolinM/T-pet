@@ -1,0 +1,15 @@
+{% extends 'booking_system/base.html' %}
+{% block title %}Customer Details{% endblock %}
+{% block customer-active %}active{% endblock %}
+{% block body %}
+<h1>Details for {{object.user.first_name}} &nbsp {{object.user.last_name}}</h1>
+<h3>Email address:{{object.user.username}}</h3>
+<p><a href="{% url 'booking_system:dog-index'%}">View my dog(s)</a></p>
+<p>Mobile number:{{object.mobile_number}}</p>
+<p>Work number:{{object.work_number}}</p>
+<p>Home number:{{object.home_number}}</p>
+<p>Home address:{{object.home_address}}</p>
+<form action="{% url 'booking_system:customer-edit'%}" method="post">{% csrf_token %}
+<input type="submit" value="Edit Profile" />
+</form>
+{% endblock %}

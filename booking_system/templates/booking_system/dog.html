@@ -1,0 +1,9 @@
+{% extends 'booking_system/base.html' %}
+{% block title %}Dog Details{% endblock %}
+{% block body %}
+<h1>The dog is {{object.name}}</h1>
+<h3>Owner:{{object.owner.first_name}}</h3>
+<form action="{% url 'booking_system:dog-edit' object.id%}" method="post">{% csrf_token %}
+<input type="submit" value="Edit Dog" />
+</form>
+{% endblock %}

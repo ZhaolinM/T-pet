@@ -1,3 +1,6 @@
-# T-pet
-# T-pet
-# T-pet
+
+To run:
+    go to the localtion of manage.py 
+    
+    
+    python manage.py runserver
