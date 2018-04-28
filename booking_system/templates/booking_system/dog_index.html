@@ -1,0 +1,22 @@
+{% extends 'booking_system/base.html' %}
+{% block title %}My Dogs{% endblock %}
+{% block body %}
+{% if object_list %}
+<ul>
+    <h2>Below shows all your dogs.</h2>
+    {% for Dog in object_list %}
+    <li>
+        <form action="{% url 'booking_system:dog-delete' Dog.id%}" method="post">{% csrf_token %}
+        <a href="{% url 'booking_system:dog-detail' Dog.id %}">
+            {{Dog}}
+        </a>
+        <input type="submit" value="Delete" {% if not user.is_authenticated %}style="visibility:hidden;"{% endif %}/}>
+        </form>
+    </li>
+    {% endfor %}
+</ul>
+{% else %}
+<h1>Please add a new dog first.</h1>
+{% endif %}
+
+{% endblock %}

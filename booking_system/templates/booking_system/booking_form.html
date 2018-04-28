@@ -1,0 +1,41 @@
+{% extends 'booking_system/base.html' %}
+{% block title %}New Booking{% endblock %}
+{% block add-booking-active %}active{% endblock %}
+{% block js %}
+<script>
+    $('#id_time').change(function(){
+        console.log($(this).val());
+        var input_time = $(this).val();
+      $.ajax({
+        url: '/booking/ajax/get_slot/',
+        data: {
+          'time': input_time
+        },
+        dataType: 'json',
+        success: function (data) {
+        alert('Free time: '+data.free_slot);
+          console.log('Ajax result:');
+          console.log(data);
+        }
+      });
+    });
+</script>
+{% endblock %}
+
+{% block body %}
+<h3> Debug: time slot</h3>
+<p>
+    slot_choice = (
+        ('S0','9:00AM-10:30AM'),
+        ('S1','10:30AM-12:00PM'),
+        ('S2','1:00PM-2:30PM'),
+        ('S3', '2:30PM-4:00PM'),
+        ('S4', '4:00PM-5:30PM'),
+    )
+</p>
+<form action="" method="post">{% csrf_token %}
+    {% include 'booking_system/form-template.html' %}
+    <button type="submit">Submit</button>
+</form>
+
+{% endblock %}

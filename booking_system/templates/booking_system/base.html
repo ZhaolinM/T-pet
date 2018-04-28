@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}welcome to T-pet!{% endblock %}</title>
+    {% load staticfiles %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link href='https://fonts.googleapis.com/css?family=Satisfy' rel='stylesheet' type='text/css'>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'inputbox/style.css' %}"/>
+</head>
+<body>
+    <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#topNavBar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <p class="navbar-brand" >&nbsp;T-pet&nbsp; </p>
+        </div>
+        <div class="collapse navbar-collapse" id="topNavBar">
+            <ul class="nav navbar-nav">
+                <li class="{% block booking-active %}{% endblock %}">
+                    <a class="navbar-brand" href="{% url 'booking_system:index' %}">
+                        <span aria-hidden="true"></span>
+                        &nbsp;Booking
+                    </a>
+                </li>
+                {% if not user.is_staff %}
+                <li class="{% block add-booking-active %}{% endblock %}" {% if not user.is_authenticated %}style="visibility:hidden;"{% endif %}>
+                    <a class="navbar-brand" href="{% url 'booking_system:booking-add' %}">
+                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                        &nbsp;Add bookings
+                    </a>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                 <li class="{% block add-dog-active %}{% endblock %}" {% if not user.is_authenticated %}style="visibility:hidden;"{% endif %}>
+                    <a class="navbar-brand" href="{% url 'booking_system:dog-add' %}">
+                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                        &nbsp;Add dogs
+                    </a>
+                </li>
+                {% endif%}
+                {% if user.is_staff %}
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li class="">
+                    <a class="navbar-brand" href="/admin/">
+                        &nbsp;&nbsp;Admin page
+                    </a>
+                </li>
+                <li class="">
+                    <a class="navbar-brand" href="{% url 'booking_system:logout' %}">
+                        &nbsp;&nbsp;Log out
+                    </a>
+                </li>
+                {% elif user.is_authenticated%}
+                <li class="{% block customer-active %}{% endblock %}">
+                    <a class="navbar-brand" href="{% url 'booking_system:customer' %}">
+                        &nbsp;&nbsp;Hi,{{user.first_name}}
+                    </a>
+                </li>
+                <li class="">
+                    <a class="navbar-brand" href="{% url 'booking_system:logout' %}">
+                        &nbsp;&nbsp;Log out
+                    </a>
+                </li>
+                {% else %}
+                <li class="{% block login-active %}{% endblock %}">
+                    <a class="navbar-brand" href="{% url 'booking_system:login' %}">
+                        &nbsp;&nbsp;Log in
+                    </a>
+                </li>
+                <li class="{% block sign-up-active %}{% endblock %}">
+                    <a class="navbar-brand" href="{% url 'booking_system:register' %}">
+                        &nbsp;Sign up
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
+    {% block body%}
+    {% endblock %}
+<script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+    {% block js %}{% endblock %}
+</body>
+</html>
