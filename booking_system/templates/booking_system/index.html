@@ -9,9 +9,6 @@
 <ul>
     {% if not user.is_staff %}
     <h2>Below shows all your bookings.</h2>
-    {% else%}
-    <h2>Below shows all customer bookings.</h2>
-    {%endif%}
     {% for Booking in object_list %}
     <li>
         <form action="{% url 'booking_system:booking-delete' Booking.id%}" method="post">{% csrf_token %}
@@ -22,6 +19,30 @@
         </form>
     </li>
     {% endfor %}
+    {% else%}
+    <h2>Below shows all customer bookings.</h2>
+    <table>
+        <tr>
+            <th>Date:</th>
+            <th>Slot:</th>
+            <th>Detail:</th>
+        </tr>
+        {% for Booking in object_list %}
+        <tr>
+            <td>&nbsp;{{Booking.time}}&nbsp;</td>
+            <td> &nbsp;{{Booking.get_slot_display}} &nbsp;</td>
+            <td>
+                <form action="{% url 'booking_system:booking-delete' Booking.id%}" method="post">{% csrf_token %}
+        <a href="{% url 'booking_system:detail' Booking.id %}">
+            {{Booking}}
+        </a>
+        <input type="submit" value="Delete" {% if not user.is_authenticated %}style="visibility:hidden;"{% endif %}/}>
+        </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    {%endif%}
 </ul>
 {% else %}
 <h1>No Bookings yet! Please make a new booking first.</h1>

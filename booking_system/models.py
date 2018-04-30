@@ -43,4 +43,4 @@ class Booking(models.Model):# Booking is 1-N for dog
 
 
     def __str__(self):
-        return 'For dog '+self.dog.name+' , time is '+ self.time.strftime('%Y-%m-%d')
+        return 'For '+self.dog.name+' , date is '+ self.time.strftime('%Y-%m-%d') + ', time is '+self.get_slot_display()

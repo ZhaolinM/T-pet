@@ -14,9 +14,9 @@ class IndexView(generic.ListView):
     template_name = 'booking_system/index.html'
     def get_queryset(self):
         if self.request.user.is_staff:
-            return Booking.objects.all()
+            return Booking.objects.all().order_by('time','slot')
         elif self.request.user.is_authenticated():
-            return Booking.objects.filter(customer=self.request.user)
+            return Booking.objects.filter(customer=self.request.user).order_by('time','slot')
 class DetailView(generic.DetailView):
     template_name = 'booking_system/booking.html'
     def get_object(self):
@@ -26,7 +26,6 @@ class DetailView(generic.DetailView):
             return get_object_or_404(Booking,pk=self.kwargs['booking_id'],customer=self.request.user)
         else:
             pass
-
 class Customer_Detail_View(generic.DetailView):
     template_name = 'booking_system/customer.html'
     def get_object(self):
@@ -75,12 +74,21 @@ class Booking_Edit_View(UpdateView):
 class Booking_Delete_View(DeleteView):
     model = Booking
     success_url =  reverse_lazy("booking_system:index")
-
+class Staff_Booking_Create_View(CreateView):
+    fields = ['time','slot']
+    template_name = 'booking_system/time_manage.html'
+    model = Booking
+    def form_valid(self, form):
+        form.instance.customer = self.request.user
+        form.instance.dog = get_object_or_404(Dog,pk=13)
+        form.instance.comment = 'STAFF BUSY'
+        return super(Staff_Booking_Create_View, self).form_valid(form)
+    success_url = reverse_lazy("booking_system:index")
 class Dog_Index_View(generic.ListView):
     template_name = 'booking_system/dog_index.html'
     def get_queryset(self):
         if self.request.user.is_authenticated():
-            return Dog.objects.filter(owner=self.request.user)
+            return Dog.objects.filter(owner=self.request.user).order_by('name')
         else:
             pass#todo: some customer logic
 class Dog_Create_View(CreateView):
@@ -164,13 +172,23 @@ class User_Form_View(View):
 
 def get_slot(request):
     input_time = request.GET.get('time', None)
-    all_slot = ['S0','S1','S2','S3','S4']
-    booked_slot = list(Booking.objects.filter(time=input_time).values_list('slot', flat=True))
-    free_slot=[]
+    all_slot = ["9:00AM-10:30AM","10:30AM-12:00PM", "1:00PM-2:30PM", "2:30PM-4:00PM","4:00PM-5:30PM" ]
+    all_slot_id = ["S0","S1","S2","S3","S4"]
+    free_slot = []
+    free_slot_id=[]
+    booked_slot=[]
+    booked_slot_id = list( Booking.objects.filter(time=input_time).values_list('slot',flat=True))
+    q = list(Booking.objects.filter(time=input_time))
+    for slot in q:
+         booked_slot.append(slot.get_slot_display())
     for slot in all_slot:
         if slot not in booked_slot:
             free_slot.append(slot)
+    for slot_id in all_slot_id:
+        if slot_id not in booked_slot_id:
+            free_slot_id.append(slot_id)
     data = {
-        'free_slot': free_slot
+        'free_slot': free_slot,
+        'free_slot_id':free_slot_id
     }
     return JsonResponse(data)
