@@ -32,7 +32,6 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'booking_system',
-    'inputbox',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

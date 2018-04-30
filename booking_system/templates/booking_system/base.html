@@ -8,7 +8,7 @@
     <link href='https://fonts.googleapis.com/css?family=Satisfy' rel='stylesheet' type='text/css'>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="{% static 'inputbox/style.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'booking_system/style.css' %}"/>
 </head>
 <body>
     <nav class="navbar navbar-inverse">
@@ -51,6 +51,11 @@
                 <li class="">
                     <a class="navbar-brand" href="/admin/">
                         &nbsp;&nbsp;Admin page
+                    </a>
+                </li>
+                <li class="">
+                    <a class="navbar-brand" href="{% url 'booking_system:time_manage' %}">
+                        &nbsp;&nbsp;Available time
                     </a>
                 </li>
                 <li class="">

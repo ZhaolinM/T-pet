@@ -3,9 +3,10 @@
 {% block body %}
 <h1>The booking is for {{object.dog.name}}</h1>
 <h3>Owner:{{object.dog.owner.first_name}}</h3>
+<p></p>
 <p>Comments:{{object.comment}}</p>
-<p>Time:{{object.time}}</p>
-<p>Option:{{object.option}}</p>
+<p>Time:{{object.time}} {{object.get_slot_display}}</p>
+<p>Option:{{object.get_option_display}}</p>
 <form action="{% url 'booking_system:booking-edit' object.id%}" method="post">{% csrf_token %}
 <input type="submit" value="Edit Booking" />
 </form>

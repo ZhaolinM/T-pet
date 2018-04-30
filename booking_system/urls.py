@@ -18,4 +18,5 @@ urlpatterns = [
     url(r'^dog/(?P<dog_id>[0-9]+)/edit/$', views.Dog_Edit_View.as_view(), name='dog-edit'),
     url(r'^dog/(?P<pk>[0-9]+)/delete/$', views.Dog_Delete_View.as_view(), name='dog-delete'),
     url(r'^ajax/get_slot/$', views.get_slot, name='get_slot'),
+    url(r'^time_manage/$',views.Staff_Booking_Create_View.as_view(),name='time_manage'),
 ]
