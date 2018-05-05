@@ -162,7 +162,6 @@ class User_Form_View(View):
              c.user = user
              c.save()
              user = authenticate(username=username,password=password)
-
              if user is not None:
                  if user.is_active:
                      login(request,user)
@@ -174,19 +173,13 @@ def get_slot(request):
     input_time = request.GET.get('time', None)
     all_slot = ["9:00AM-10:30AM","10:30AM-12:00PM", "1:00PM-2:30PM", "2:30PM-4:00PM","4:00PM-5:30PM" ]
     all_slot_id = ["S0","S1","S2","S3","S4"]
-    free_slot = []
-    free_slot_id=[]
     booked_slot=[]
     booked_slot_id = list( Booking.objects.filter(time=input_time).values_list('slot',flat=True))
     q = list(Booking.objects.filter(time=input_time))
     for slot in q:
          booked_slot.append(slot.get_slot_display())
-    for slot in all_slot:
-        if slot not in booked_slot:
-            free_slot.append(slot)
-    for slot_id in all_slot_id:
-        if slot_id not in booked_slot_id:
-            free_slot_id.append(slot_id)
+    free_slot = filter(lambda x:x not in booked_slot,all_slot)
+    free_slot_id = filter(lambda x:x not in booked_slot_id,all_slot_id)
     data = {
         'free_slot': free_slot,
         'free_slot_id':free_slot_id
