@@ -21,6 +21,11 @@ def send_email(receiver_addresss):
     s.quit()
     print('email send to: '+receiver_addresss)
 raw_result = list(Booking.objects.filter(time=str(check_date)[0:10],notified=False))
+id_list = list(map(lambda x:x.id,raw_result))
+for id in id_list:
+    obj = Booking.objects.get(id=id)
+    obj.notified = True
+    obj.save()
 email_address = list(map(lambda x:x.customer.username,raw_result))
 for address in email_address:
     send_email(address)
