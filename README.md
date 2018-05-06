@@ -1,6 +1,6 @@
 
 To run:
-    go to the localtion of manage.py 
+    go to the location of manage.py 
     
     
     python manage.py runserver
