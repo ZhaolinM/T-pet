@@ -4,9 +4,6 @@ To run:
     
     
     python manage.py runserver
-You may need to fix the dir and email account&password in email_sender.py
+You may need to provide your email account&password in email_sender.py
 
-to run email_sender(in linux shell):
-     
-     watch -n X python email_sender.py
-X is the time interval you want to run the script(in second), also gmail cannot send more than 500 mails per day in this way
+the email_sender.py call by sender.sh (You may need chmod to this file), the shell script need to run manually everyday BEFORE 9:00AM and it will running till 4:00PM. 
