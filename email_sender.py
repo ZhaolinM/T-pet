@@ -1,5 +1,4 @@
 import sys,os,django,datetime,smtplib
-sys.path.append('dir to project')
 os.environ['DJANGO_SETTINGS_MODULE'] = 'writter.settings'
 django.setup()
 #setup django ORM outside of django
@@ -19,11 +18,8 @@ def send_email(receiver_addresss):
     print('email send to: '+receiver_addresss)
 def query(time_slot):
     return Booking.objects.get(time=str(check_date)[0:10],notified=False,slot=time_slot)
-
-'''
 obj = Booking.objects.get(id=query(arg).id)
 obj.notified = True
 obj.save()
-'''
 send_email(query(arg).customer.username)
 
